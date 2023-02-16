@@ -1,7 +1,7 @@
 build:
 	pandoc book.md \
 	-o index.html \
-	--highlight-style espresso \
+	--highlight-style tango \
 	--css style.css \
 	--toc \
 	--template template.html \
