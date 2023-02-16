@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Tópicos em Desenvolvimento Web: Arquiteturas de Aplicações Web</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #2a211c;
+        color: #bdae9d;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+    div.sourceCode
+      { color: #bdae9d; background-color: #2a211c; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffff00; } /* Alert */
+    code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #44aa43; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #049b0a; } /* Char */
+    code span.cn { } /* Constant */
+    code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+    code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+    code span.dt { text-decoration: underline; } /* DataType */
+    code span.dv { color: #44aa43; } /* DecVal */
+    code span.er { color: #ffff00; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #44aa43; } /* Float */
+    code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+    code span.op { } /* Operator */
+    code span.pp { font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #049b0a; } /* SpecialChar */
+    code span.ss { color: #049b0a; } /* SpecialString */
+    code span.st { color: #049b0a; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #049b0a; } /* VerbatimString */
+    code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Tópicos em Desenvolvimento Web: Arquiteturas de
+Aplicações Web</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introdução" id="toc-introdução">Introdução</a>
+<ul>
+<li><a href="#definição-de-arquitetura-de-aplicações-web"
+id="toc-definição-de-arquitetura-de-aplicações-web">Definição de
+Arquitetura de Aplicações Web</a></li>
+<li><a href="#importância-de-escolher-uma-boa-arquitetura"
+id="toc-importância-de-escolher-uma-boa-arquitetura">Importância de
+escolher uma boa arquitetura</a></li>
+</ul></li>
+<li><a href="#arquiteturas-de-aplicações-web"
+id="toc-arquiteturas-de-aplicações-web">Arquiteturas de Aplicações
+Web</a>
+<ul>
+<li><a href="#mvc-model-view-controller"
+id="toc-mvc-model-view-controller">MVC (Model-View-Controller)</a>
+<ul>
+<li><a href="#mvc-definição-e-funcionamento"
+id="toc-mvc-definição-e-funcionamento">MVC: Definição e
+funcionamento</a></li>
+<li><a href="#mvc-exemplo-de-implementação-usando-laravel"
+id="toc-mvc-exemplo-de-implementação-usando-laravel">MVC: Exemplo de
+implementação usando Laravel</a></li>
+</ul></li>
+<li><a href="#mvvm-model-view-viewmodel"
+id="toc-mvvm-model-view-viewmodel">MVVM (Model-View-ViewModel)</a>
+<ul>
+<li><a href="#mvvm-definição-e-funcionamento"
+id="toc-mvvm-definição-e-funcionamento">MVVM: Definição e
+funcionamento</a></li>
+<li><a href="#mvvm-comparação-com-o-mvc"
+id="toc-mvvm-comparação-com-o-mvc">MVVM: Comparação com o MVC</a></li>
+</ul></li>
+<li><a href="#outras-arquiteturas" id="toc-outras-arquiteturas">Outras
+arquiteturas</a>
+<ul>
+<li><a href="#flux" id="toc-flux">Flux</a></li>
+<li><a href="#redux-e-vuex" id="toc-redux-e-vuex">Redux e Vuex</a></li>
+<li><a href="#clean" id="toc-clean">Clean</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#rotas" id="toc-rotas">Rotas</a>
+<ul>
+<li><a href="#rotas-o-que-são-rotas-em-uma-aplicação-web"
+id="toc-rotas-o-que-são-rotas-em-uma-aplicação-web">Rotas: O que são
+rotas em uma aplicação web</a></li>
+<li><a href="#rotas-importância-das-rotas-para-organização"
+id="toc-rotas-importância-das-rotas-para-organização">Rotas: Importância
+das rotas para organização</a></li>
+<li><a href="#rotas-middlewares-em-rotas-e-para-que-servem"
+id="toc-rotas-middlewares-em-rotas-e-para-que-servem">Rotas: Middlewares
+em rotas e para que servem</a></li>
+</ul></li>
+<li><a href="#migrations" id="toc-migrations">Migrations</a>
+<ul>
+<li><a href="#migrations-definição-e-funcionamento"
+id="toc-migrations-definição-e-funcionamento">Migrations: Definição e
+funcionamento</a></li>
+<li><a href="#migrations-vantagens-e-desvantagens"
+id="toc-migrations-vantagens-e-desvantagens">Migrations: Vantagens e
+desvantagens</a></li>
+<li><a
+href="#migrations-exemplo-de-implementação-usando-laravel-migrations"
+id="toc-migrations-exemplo-de-implementação-usando-laravel-migrations">Migrations:
+Exemplo de implementação usando Laravel Migrations</a></li>
+</ul></li>
+<li><a href="#orm-e-relacionamentos-entre-entidades"
+id="toc-orm-e-relacionamentos-entre-entidades">ORM e Relacionamentos
+entre Entidades</a>
+<ul>
+<li><a href="#definição-de-orm" id="toc-definição-de-orm">Definição de
+ORM</a></li>
+<li><a href="#orm-vantagens-e-desvantagens"
+id="toc-orm-vantagens-e-desvantagens">ORM: Vantagens e
+desvantagens</a></li>
+<li><a href="#relacionamentos-entre-entidades"
+id="toc-relacionamentos-entre-entidades">Relacionamentos entre
+entidades</a>
+<ul>
+<li><a href="#relacionamentos-um-para-um"
+id="toc-relacionamentos-um-para-um">Relacionamentos: Um para Um</a></li>
+<li><a href="#relacionamentos-um-para-muitos"
+id="toc-relacionamentos-um-para-muitos">Relacionamentos: Um para
+Muitos</a></li>
+<li><a href="#relacionamentos-muitos-para-muitos"
+id="toc-relacionamentos-muitos-para-muitos">Relacionamentos: Muitos para
+Muitos</a></li>
+</ul></li>
+<li><a href="#orm-exemplo-de-implementação-usando-laravel-eloquent"
+id="toc-orm-exemplo-de-implementação-usando-laravel-eloquent">ORM:
+Exemplo de implementação usando Laravel Eloquent</a></li>
+</ul></li>
+<li><a href="#frameworks-vuejs-e-inertia"
+id="toc-frameworks-vuejs-e-inertia">Frameworks VueJS e Inertia</a>
+<ul>
+<li><a href="#introdução-ao-vuejs"
+id="toc-introdução-ao-vuejs">Introdução ao VueJS</a>
+<ul>
+<li><a href="#vuejs-definição-e-funcionamento"
+id="toc-vuejs-definição-e-funcionamento">VueJS: Definição e
+funcionamento</a></li>
+<li><a href="#vuejs-principais-recursos-e-benefícios"
+id="toc-vuejs-principais-recursos-e-benefícios">VueJS: Principais
+recursos e benefícios</a></li>
+</ul></li>
+<li><a href="#introdução-ao-inertia"
+id="toc-introdução-ao-inertia">Introdução ao Inertia</a>
+<ul>
+<li><a href="#inertia-definição-e-funcionamento"
+id="toc-inertia-definição-e-funcionamento">Inertia: Definição e
+funcionamento</a></li>
+<li><a href="#inertia-como-funciona-em-conjunto-com-o-laravel"
+id="toc-inertia-como-funciona-em-conjunto-com-o-laravel">Inertia: Como
+funciona em conjunto com o Laravel</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#outros-conceitos-importantes"
+id="toc-outros-conceitos-importantes">Outros Conceitos Importantes</a>
+<ul>
+<li><a href="#spa-single-page-applications"
+id="toc-spa-single-page-applications">SPA (Single-Page
+Applications)</a></li>
+<li><a href="#api-application-programming-interface"
+id="toc-api-application-programming-interface">API (Application
+Programming Interface)</a></li>
+<li><a href="#ssr-server-side-rendering"
+id="toc-ssr-server-side-rendering">SSR (Server-Side Rendering)</a></li>
+<li><a href="#csr-client-side-rendering"
+id="toc-csr-client-side-rendering">CSR (Client-Side Rendering)</a></li>
+<li><a href="#pwa-progressive-web-apps"
+id="toc-pwa-progressive-web-apps">PWA (Progressive Web Apps)</a></li>
+</ul></li>
+<li><a href="#conclusão" id="toc-conclusão">Conclusão</a>
+<ul>
+<li><a href="#recapitulação-dos-principais-tópicos"
+id="toc-recapitulação-dos-principais-tópicos">Recapitulação dos
+principais tópicos</a></li>
+<li><a
+href="#pontos-fortes-e-fracos-de-cada-arquitetura-framework-e-conceito-discutido"
+id="toc-pontos-fortes-e-fracos-de-cada-arquitetura-framework-e-conceito-discutido">Pontos
+fortes e fracos de cada arquitetura, framework e conceito
+discutido</a></li>
+<li><a href="#considerações-finais"
+id="toc-considerações-finais">Considerações finais</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="introdução">Introdução</h1>
+<h2 id="definição-de-arquitetura-de-aplicações-web">Definição de
+Arquitetura de Aplicações Web</h2>
+<p>Arquitetura de Aplicações Web se refere à estrutura de alto nível que
+orienta a organização e o desenvolvimento de uma aplicação web. Isso
+inclui a escolha de padrões, práticas e ferramentas que possam ajudar a
+separar as preocupações em diferentes componentes e melhorar a
+manutenção, a escalabilidade, a testabilidade e a flexibilidade da
+aplicação. Uma arquitetura bem planejada pode simplificar a complexidade
+e melhorar a qualidade de uma aplicação web, permitindo que ela seja
+facilmente modificada e atualizada ao longo do tempo. Algumas das
+principais arquiteturas utilizadas em aplicações web incluem o MVC, o
+MVVM e o Flux.</p>
+<h2 id="importância-de-escolher-uma-boa-arquitetura">Importância de
+escolher uma boa arquitetura</h2>
+<p>Escolher uma boa arquitetura para uma aplicação web é crucial para
+garantir que ela seja eficiente, escalável e facilmente mantida. Uma
+arquitetura bem projetada pode ajudar a separar as preocupações em
+diferentes camadas, como interface do usuário, lógica de negócios e
+persistência de dados, permitindo que cada camada seja modificada e
+atualizada independentemente. Isso pode ajudar a melhorar a
+modularidade, a testabilidade e a reutilização de código.</p>
+<p>Além disso, uma boa arquitetura pode ajudar a reduzir a complexidade
+da aplicação e melhorar a escalabilidade. Por exemplo, o uso de uma
+arquitetura MVC pode permitir que a aplicação seja dividida em três
+camadas: modelo, visualização e controle. Isso pode permitir que as
+alterações sejam feitas em cada camada de forma independente,
+facilitando a manutenção da aplicação.</p>
+<p>Por fim, a escolha de uma boa arquitetura pode ajudar a melhorar a
+eficiência do desenvolvimento, fornecendo diretrizes claras para os
+desenvolvedores seguir. Isso pode ajudar a garantir que a aplicação seja
+desenvolvida de forma consistente, seguindo as melhores práticas e
+padrões recomendados.</p>
+<h1 id="arquiteturas-de-aplicações-web">Arquiteturas de Aplicações
+Web</h1>
+<h2 id="mvc-model-view-controller">MVC (Model-View-Controller)</h2>
+<h3 id="mvc-definição-e-funcionamento">MVC: Definição e
+funcionamento</h3>
+<p>MVC é um padrão de arquitetura de software que divide uma aplicação
+em três componentes principais: Model (Modelo), View (Visualização) e
+Controller (Controlador).</p>
+<ul>
+<li><p>Modelo (Model): é a camada responsável pela lógica de negócios e
+pelo acesso aos dados. Ele gerencia e manipula os dados e fornece uma
+interface para a camada de visualização exibir os dados ao usuário. O
+modelo também pode validar os dados e notificar a camada de controle
+sobre quaisquer alterações nos dados.</p></li>
+<li><p>Visualização (View): é a camada responsável pela apresentação dos
+dados ao usuário. A visualização é composta por elementos de interface
+do usuário, como formulários, tabelas e gráficos, e é responsável pela
+interação do usuário com a aplicação. A visualização recebe os dados do
+modelo e os apresenta ao usuário em um formato apropriado.</p></li>
+<li><p>Controlador (Controller): é a camada que atua como intermediário
+entre a visualização e o modelo. O controlador é responsável por receber
+as solicitações do usuário e manipular as ações correspondentes no
+modelo. Ele processa as entradas do usuário e altera o estado do modelo,
+se necessário, e fornece as atualizações necessárias para a
+visualização.</p></li>
+</ul>
+<p>A principal vantagem do MVC é a separação de preocupações entre as
+diferentes camadas, o que facilita a manutenção e o teste da aplicação.
+Por exemplo, alterações na visualização não afetam o modelo ou o
+controlador, o que permite que cada camada seja modificada
+independentemente, sem afetar as outras camadas. Isso torna a aplicação
+mais flexível, extensível e fácil de manter.</p>
+<h3 id="mvc-exemplo-de-implementação-usando-laravel">MVC: Exemplo de
+implementação usando Laravel</h3>
+<p>No Laravel, o padrão MVC é utilizado para separar as
+responsabilidades de uma aplicação web. A estrutura do Laravel é
+organizada em pastas e arquivos seguindo a convenção MVC.</p>
+<p>A pasta <code>app</code> contém as pastas <code>Models</code>,
+<code>Views</code> e <code>Controllers</code>, que representam o modelo,
+a visualização e o controlador, respectivamente. Cada um desses
+componentes é responsável por uma parte específica da lógica da
+aplicação.</p>
+<p>Por exemplo, vamos supor que queremos criar uma aplicação para
+gerenciar tarefas de um usuário. Primeiro, criamos o modelo para a
+tabela de tarefas:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> <span class="cn">A</span>pp\<span class="cn">M</span>odels<span class="ot">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">E</span>loquent\<span class="cn">M</span>odel<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">T</span>ask <span class="kw">extends</span> <span class="cn">M</span>odel</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="va">$fillable</span> <span class="op">=</span> [<span class="st">&#39;title&#39;</span><span class="ot">,</span> <span class="st">&#39;description&#39;</span>]<span class="ot">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Em seguida, criamos o controlador para lidar com as solicitações
+HTTP:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> <span class="cn">A</span>pp\<span class="cn">H</span>ttp\<span class="cn">C</span>ontrollers<span class="ot">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">A</span>pp\<span class="cn">M</span>odels\<span class="cn">T</span>ask<span class="ot">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">H</span>ttp\<span class="cn">R</span>equest<span class="ot">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">T</span>askController <span class="kw">extends</span> <span class="cn">C</span>ontroller</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> index()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">$tasks</span> <span class="op">=</span> <span class="cn">T</span>ask::all()<span class="ot">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> view(<span class="st">&#39;tasks.index&#39;</span><span class="ot">,</span> <span class="fu">compact</span>(<span class="st">&#39;tasks&#39;</span>))<span class="ot">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> create()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> view(<span class="st">&#39;tasks.create&#39;</span>)<span class="ot">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> store(<span class="cn">R</span>equest <span class="va">$request</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">$task</span> <span class="op">=</span> <span class="cn">T</span>ask::create(<span class="va">$request</span>-&gt;all())<span class="ot">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> redirect()-&gt;route(<span class="st">&#39;tasks.index&#39;</span>)<span class="ot">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Por fim, criamos as visualizações que representam a interface do
+usuário:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- tasks/index.blade.php --&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>@foreach($tasks as $task)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;p&gt;</span>{{ $task-&gt;title }}<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>@endforeach</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- tasks/create.blade.php --&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;form</span> <span class="er">action</span><span class="ot">=</span><span class="st">&quot;{{ route(&#39;tasks.store&#39;) }}&quot;</span> <span class="er">method</span><span class="ot">=</span><span class="st">&quot;post&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    @csrf</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;title&quot;</span> <span class="er">placeholder</span><span class="ot">=</span><span class="st">&quot;Título&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;input</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;text&quot;</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;description&quot;</span> <span class="er">placeholder</span><span class="ot">=</span><span class="st">&quot;Descrição&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;button</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>Salvar<span class="kw">&lt;/button&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/form&gt;</span></span></code></pre></div>
+<p>No exemplo acima, o modelo <code>Task</code> representa a tabela de
+tarefas no banco de dados, o controlador <code>TaskController</code>
+lida com as solicitações HTTP e o conjunto de visualizações
+<code>tasks</code> representa a interface do usuário. O Laravel utiliza
+o conceito de rotas para mapear as solicitações HTTP para os métodos do
+controlador. A visualização é renderizada e exibida no navegador do
+usuário.</p>
+<p>Essa é apenas uma implementação básica de um aplicativo Laravel
+usando o padrão MVC. No entanto, a estrutura MVC do Laravel permite a
+criação de aplicativos mais complexos com facilidade, separando as
+responsabilidades da aplicação em diferentes componentes.</p>
+<h2 id="mvvm-model-view-viewmodel">MVVM (Model-View-ViewModel)</h2>
+<h3 id="mvvm-definição-e-funcionamento">MVVM: Definição e
+funcionamento</h3>
+<p>MVVM (Model-View-ViewModel) é uma arquitetura de software utilizada
+em aplicações web e móveis. Ela é uma evolução do padrão MVC
+(Model-View-Controller) e é comumente usado em frameworks de
+desenvolvimento front-end, como o Angular e o Vue.js.</p>
+<p>A arquitetura MVVM é composta por três componentes principais:</p>
+<ol type="1">
+<li><p><strong>Model</strong>: O modelo representa os dados e a lógica
+de negócios da aplicação. Ele é responsável por recuperar e armazenar
+dados, bem como por executar operações e validações de
+negócios.</p></li>
+<li><p><strong>View</strong>: A view é a interface do usuário,
+responsável por exibir e coletar informações do usuário. Ela exibe o
+modelo de forma que os usuários possam interagir com ele.</p></li>
+<li><p><strong>ViewModel</strong>: O ViewModel é um componente
+intermediário que conecta a view ao modelo. Ele é responsável por mapear
+as informações da view para o modelo e vice-versa. Além disso, ele
+também é responsável por implementar a lógica de apresentação, como a
+formatação de dados para exibição e validação de entrada do
+usuário.</p></li>
+</ol>
+<p>O ViewModel é o componente mais importante na arquitetura MVVM. Ele
+atua como uma camada intermediária que permite que a view se comunique
+com o modelo sem conhecer detalhes de implementação do modelo. Isso
+permite uma maior separação de preocupações e torna a manutenção do
+código mais fácil.</p>
+<p>Uma das principais vantagens da arquitetura MVVM é a separação clara
+de responsabilidades entre os diferentes componentes. Isso torna o
+código mais modular e mais fácil de manter, além de permitir que as
+partes da aplicação sejam desenvolvidas e testadas separadamente. Além
+disso, o ViewModel permite que a lógica de apresentação seja facilmente
+reutilizada entre diferentes views.</p>
+<h3 id="mvvm-comparação-com-o-mvc">MVVM: Comparação com o MVC</h3>
+<p>A arquitetura MVVM (Model-View-ViewModel) é uma evolução do padrão
+MVC (Model-View-Controller). Embora compartilhem algumas semelhanças, há
+algumas diferenças importantes entre os dois padrões.</p>
+<p>Uma das principais diferenças entre o MVC e o MVVM é a forma como a
+lógica de apresentação é tratada. No MVC, a lógica de apresentação é
+geralmente tratada pelo Controller, que atua como um intermediário entre
+a View e o Model. No entanto, isso pode levar a um Controller com muita
+responsabilidade, tornando o código difícil de manter.</p>
+<p>No MVVM, a lógica de apresentação é tratada pelo ViewModel. Isso
+permite que a lógica de apresentação seja facilmente reutilizada em
+diferentes Views e ajuda a manter uma separação clara de preocupações
+entre as diferentes camadas da aplicação.</p>
+<p>Outra diferença importante entre o MVC e o MVVM é a forma como a View
+interage com o Model. No MVC, a View geralmente tem acesso direto ao
+Model, o que pode tornar o código difícil de manter e testar. No MVVM, a
+View se comunica com o Model por meio do ViewModel, o que ajuda a manter
+a View e o Model isolados um do outro.</p>
+<p>Em resumo, embora o MVC e o MVVM compartilhem algumas semelhanças, há
+algumas diferenças importantes entre eles. O MVVM é uma evolução do
+padrão MVC, que ajuda a manter uma separação clara de preocupações entre
+as diferentes camadas da aplicação e a tornar o código mais modular e
+fácil de manter.</p>
+<h2 id="outras-arquiteturas">Outras arquiteturas</h2>
+<h3 id="flux">Flux</h3>
+<p>O Flux é uma arquitetura de gerenciamento de estado de aplicativos
+web que foi desenvolvida pelo Facebook. Foi criada para resolver alguns
+problemas que surgiram ao desenvolver aplicativos complexos com muitos
+componentes interativos.</p>
+<p>O Flux é baseado no conceito de unidirecionalidade de dados, onde
+todos os dados fluem em uma única direção. Isso significa que o estado
+da aplicação é mantido em um único lugar, o Store, que é gerenciado por
+um Dispatcher. Quando um componente precisa atualizar o estado da
+aplicação, ele envia uma ação para o Dispatcher, que atualiza o Store e
+notifica todos os componentes interessados.</p>
+<p>Isso ajuda a manter um controle mais preciso do estado da aplicação e
+a garantir que os dados sejam atualizados de forma consistente em toda a
+aplicação. Além disso, o Flux também permite a criação de fluxos de
+dados unidirecionais mais complexos, tornando mais fácil gerenciar o
+estado da aplicação em aplicativos mais complexos.</p>
+<p>Embora o Flux seja especialmente adequado para aplicativos grandes e
+complexos, ele pode ser usado em qualquer aplicativo web que precise
+gerenciar seu estado de forma clara e consistente. Há também várias
+implementações de Flux disponíveis em diferentes linguagens e
+frameworks, incluindo o Redux para React, o NgRx para Angular e o Vuex
+para Vue.js.</p>
+<h3 id="redux-e-vuex">Redux e Vuex</h3>
+<p>Redux e Vuex são duas bibliotecas que implementam a arquitetura Flux
+em suas respectivas frameworks: React e Vue.js.</p>
+<p>O Redux é uma biblioteca de gerenciamento de estado para aplicações
+React. Ele segue o mesmo padrão Flux, em que o estado é mantido em um
+único lugar, o Store, que é gerenciado por um Dispatcher. Os componentes
+enviam ações para o Dispatcher, que atualiza o Store e notifica os
+componentes interessados. O Redux também oferece recursos para garantir
+a consistência do estado da aplicação e para facilitar a implementação
+de recursos como viagem no tempo e persistência de estado.</p>
+<p>Já o Vuex é uma biblioteca de gerenciamento de estado para aplicações
+Vue.js. Assim como o Redux, ele segue o mesmo padrão Flux, e consiste em
+um estado centralizado que é gerenciado por mutações. A diferença é que
+o Vuex inclui vários conceitos e recursos adicionais, como os Getters e
+as Actions, que ajudam a organizar e gerenciar o estado da
+aplicação.</p>
+<p>Ambas as bibliotecas, Redux e Vuex, são altamente populares e
+oferecem soluções eficazes para gerenciamento de estado em suas
+respectivas frameworks. A escolha entre as duas bibliotecas depende da
+framework utilizada, das necessidades da aplicação e das preferências
+pessoais do desenvolvedor. Em geral, ambas as bibliotecas oferecem
+soluções flexíveis e poderosas para gerenciamento de estado em
+aplicações web.</p>
+<h3 id="clean">Clean</h3>
+<p>Clean Architecture é um padrão de arquitetura de software proposto
+por Robert C. Martin, que defende a separação das camadas de uma
+aplicação em diferentes níveis de abstração, com o objetivo de criar um
+sistema limpo, flexível, escalável e facilmente testável.</p>
+<p>A ideia por trás da Clean Architecture é que as diferentes camadas de
+uma aplicação devem ser independentes e com uma responsabilidade única,
+sem depender de outras camadas para realizar seu trabalho. Essa
+abordagem é semelhante à abordagem do padrão MVC, que separa a aplicação
+em Model, View e Controller. No entanto, a Clean Architecture expande
+esse conceito, criando várias camadas independentes, como Entities, Use
+Cases, Interface Adapters e Frameworks &amp; Drivers.</p>
+<p>As camadas de uma aplicação Clean Architecture são organizadas em
+círculos concêntricos, cada um com um nível de abstração diferente. O
+círculo interno contém as entidades, que representam as classes de
+objetos centrais da aplicação. O segundo círculo contém os casos de uso
+(use cases), que contêm as regras de negócios da aplicação e são
+responsáveis por orquestrar as entidades e as interfaces do usuário. O
+terceiro círculo contém os adaptadores de interface (interface
+adapters), que traduzem os dados do caso de uso para as interfaces do
+usuário e vice-versa. O quarto e último círculo contém os frameworks e
+drivers, que são responsáveis por fornecer a infraestrutura e as
+ferramentas necessárias para a aplicação funcionar.</p>
+<p>A Clean Architecture é uma abordagem poderosa para projetar e
+desenvolver aplicações escaláveis e testáveis. Ao separar as camadas de
+uma aplicação em diferentes níveis de abstração, é possível manter a
+aplicação mais organizada, modular e flexível, tornando-a mais fácil de
+manter, estender e adaptar a diferentes cenários de negócios.</p>
+<h1 id="rotas">Rotas</h1>
+<h2 id="rotas-o-que-são-rotas-em-uma-aplicação-web">Rotas: O que são
+rotas em uma aplicação web</h2>
+<p>Rotas são um conceito fundamental em uma aplicação web. Elas são
+responsáveis por mapear as requisições HTTP feitas pelo cliente para uma
+determinada URL (Uniform Resource Locator) em uma ação específica no
+servidor.</p>
+<p>Em outras palavras, as rotas determinam como a aplicação responde às
+solicitações feitas pelos usuários. Quando um usuário digita uma URL em
+seu navegador ou clica em um link, o navegador envia uma solicitação
+HTTP para o servidor. É responsabilidade das rotas interpretar essa
+solicitação e decidir como a aplicação deve responder.</p>
+<p>As rotas são definidas em uma tabela de roteamento, que mapeia uma
+URL para uma ação específica em um controlador. Essa ação pode incluir a
+recuperação de dados do banco de dados, a geração de conteúdo dinâmico e
+o envio de uma resposta HTTP de volta ao cliente.</p>
+<p>Em muitos frameworks web, como Laravel e Ruby on Rails, as rotas são
+definidas em um arquivo de rotas separado. Esse arquivo contém uma lista
+de rotas, cada uma com uma URL e uma ação correspondente em um
+controlador. À medida que a aplicação cresce, a tabela de roteamento
+pode se tornar muito grande e complexa. Nesse caso, é importante
+organizar as rotas em grupos e namespaces para tornar a tabela de
+roteamento mais fácil de gerenciar.</p>
+<p>As rotas são uma parte essencial de uma aplicação web. Elas permitem
+que os usuários naveguem pela aplicação e interajam com ela de maneira
+intuitiva e eficiente. Além disso, as rotas ajudam a manter a aplicação
+segura, garantindo que as solicitações HTTP sejam tratadas corretamente
+e que os usuários só tenham acesso aos recursos aos quais têm
+permissão.</p>
+<h2 id="rotas-importância-das-rotas-para-organização">Rotas: Importância
+das rotas para organização</h2>
+<p>As rotas desempenham um papel importante na organização de uma
+aplicação web. À medida que a aplicação cresce, é comum que o número de
+rotas aumente significativamente, tornando a tabela de roteamento cada
+vez mais complexa e difícil de gerenciar. Para manter a aplicação
+organizada e fácil de manter, é importante pensar cuidadosamente sobre
+como as rotas são organizadas e agrupadas.</p>
+<p>Uma das principais maneiras de organizar as rotas é agrupá-las em
+namespaces. Isso ajuda a evitar conflitos de rota e torna a tabela de
+roteamento mais fácil de navegar. Por exemplo, em uma aplicação de
+comércio eletrônico, pode ser útil agrupar todas as rotas relacionadas
+ao carrinho de compras em um namespace separado, como
+<code>/carrinho</code>.</p>
+<p>Além disso, as rotas também podem ser organizadas em grupos, com cada
+grupo contendo rotas relacionadas a um determinado recurso ou
+funcionalidade. Por exemplo, em uma aplicação de blog, todas as rotas
+relacionadas a posts podem ser agrupadas em um grupo separado, enquanto
+as rotas relacionadas a categorias e tags podem ser agrupadas em grupos
+separados.</p>
+<p>A organização cuidadosa das rotas também pode ajudar a manter a
+segurança da aplicação. Ao agrupar as rotas relacionadas a recursos
+específicos, é mais fácil garantir que apenas usuários autorizados
+tenham acesso a esses recursos. Além disso, as rotas podem ser
+protegidas usando autenticação e autorização para garantir que os
+usuários tenham permissão para acessar as páginas apropriadas.</p>
+<p>Em resumo, a organização cuidadosa das rotas é essencial para manter
+uma aplicação web organizada, fácil de manter e segura. Ao agrupar as
+rotas em namespaces e grupos lógicos, os desenvolvedores podem garantir
+que a tabela de roteamento seja fácil de navegar e que as solicitações
+HTTP sejam tratadas corretamente.</p>
+<h2 id="rotas-middlewares-em-rotas-e-para-que-servem">Rotas: Middlewares
+em rotas e para que servem</h2>
+<p>Em uma aplicação web, um middleware é uma função que é executada
+antes ou depois do processamento de uma solicitação HTTP. É importante
+salientar que este não é o conceito primário de Middleware, mas sim uma
+adaptação do conceito para o mundo de aplicações web. Os middlewares
+podem ser usados para executar várias tarefas, como autenticação,
+validação de dados, registro de atividades, entre outras.</p>
+<p>No contexto das rotas, os middlewares podem ser usados para definir
+regras específicas que devem ser aplicadas a um conjunto de rotas. Por
+exemplo, é comum usar middlewares para proteger rotas que exigem
+autenticação, garantindo que apenas usuários autenticados possam
+acessá-las.</p>
+<p>Além disso, os middlewares podem ser usados para modificar o
+comportamento padrão das rotas. Por exemplo, um middleware pode ser
+usado para fazer uma validação de entrada em uma determinada rota antes
+que ela seja processada. Isso pode ser útil para garantir que os dados
+fornecidos pelos usuários estejam em conformidade com as regras de
+negócios da aplicação.</p>
+<p>Os middlewares podem ser definidos e aplicados em diferentes níveis
+de granularidade. Eles podem ser aplicados em nível de aplicação, em
+nível de rota ou até em nível de grupo de rotas. Isso permite que os
+desenvolvedores controlem com precisão como os middlewares são aplicados
+e quais rotas são afetadas.</p>
+<p>Os middlewares são uma parte essencial do ecossistema de rotas em uma
+aplicação web, ajudando a garantir que as solicitações HTTP sejam
+processadas corretamente e que a aplicação seja segura e confiável. Ao
+usar middlewares para definir regras de negócios, validações e regras de
+segurança, os desenvolvedores podem garantir que a aplicação atenda aos
+requisitos funcionais e não funcionais.</p>
+<h1 id="migrations">Migrations</h1>
+<h2 id="migrations-definição-e-funcionamento">Migrations: Definição e
+funcionamento</h2>
+<p>Em uma aplicação web, as migrations são uma técnica usada para
+gerenciar as mudanças no esquema do banco de dados. Em vez de modificar
+manualmente o esquema do banco de dados, as migrations permitem que as
+mudanças sejam versionadas e aplicadas de forma programática. Isso torna
+mais fácil manter o controle de como o esquema do banco de dados evolui
+ao longo do tempo e garante que todas as instâncias da aplicação tenham
+o mesmo esquema.</p>
+<p>O funcionamento das migrations geralmente é baseado em uma linguagem
+de definição de esquema, que permite definir tabelas, colunas, índices,
+restrições e outras estruturas do banco de dados. As migrations são
+escritas na forma de arquivos que descrevem as mudanças a serem
+aplicadas no esquema do banco de dados.</p>
+<p>As migrations são executadas em ordem cronológica, o que significa
+que as mudanças mais recentes são aplicadas depois das mudanças
+anteriores. Isso permite que a aplicação evolua gradualmente, à medida
+que novas funcionalidades são adicionadas e o esquema do banco de dados
+é atualizado.</p>
+<p>Além disso, as migrations são geralmente reversíveis, o que significa
+que é possível desfazer as mudanças feitas no esquema do banco de dados.
+Isso pode ser útil em situações em que uma mudança é aplicada
+erroneamente ou causa problemas inesperados na aplicação.</p>
+<p>As migrations são uma parte essencial do processo de desenvolvimento
+de uma aplicação web e são amplamente usadas em diferentes frameworks e
+linguagens de programação. Ao usar as migrations para gerenciar as
+mudanças no esquema do banco de dados, os desenvolvedores podem garantir
+que a aplicação seja escalável, confiável e fácil de manter ao longo do
+tempo.</p>
+<h2 id="migrations-vantagens-e-desvantagens">Migrations: Vantagens e
+desvantagens</h2>
+<p>As migrations apresentam diversas vantagens e desvantagens no
+processo de desenvolvimento de uma aplicação web. Algumas das principais
+são:</p>
+<h4 id="vantagens">Vantagens</h4>
+<ul>
+<li><strong>Facilidade de gerenciamento do esquema do banco de
+dados:</strong> as migrations permitem que as mudanças no esquema do
+banco de dados sejam versionadas e gerenciadas de forma programática, o
+que torna mais fácil manter o controle do histórico das mudanças e
+garantir que todas as instâncias da aplicação tenham o mesmo
+esquema.</li>
+<li><strong>Reversibilidade das mudanças:</strong> como as migrations
+são executadas em ordem cronológica, é possível desfazer as mudanças
+feitas no esquema do banco de dados. Isso pode ser útil em situações em
+que uma mudança é aplicada erroneamente ou causa problemas inesperados
+na aplicação.</li>
+<li><strong>Facilidade de colaboração:</strong> as migrations permitem
+que vários desenvolvedores trabalhem no esquema do banco de dados ao
+mesmo tempo, evitando conflitos e mantendo a consistência do
+esquema.</li>
+</ul>
+<h4 id="desvantagens">Desvantagens</h4>
+<ul>
+<li><strong>Complexidade:</strong> as migrations podem ser complexas e
+difíceis de entender, especialmente em projetos grandes com muitas
+mudanças no esquema do banco de dados ao longo do tempo.</li>
+<li><strong>Custo de manutenção:</strong> as migrations exigem esforço
+contínuo de manutenção, pois cada mudança no esquema do banco de dados
+deve ser implementada como uma nova migração. Isso pode aumentar o custo
+e o tempo de desenvolvimento da aplicação.</li>
+<li><strong>Limitações da ferramenta:</strong> as ferramentas de
+migrations podem apresentar limitações em relação ao esquema do banco de
+dados ou ao tipo de mudança que pode ser feita. Isso pode exigir o uso
+de técnicas adicionais ou a criação de migrações personalizadas.</li>
+</ul>
+<p>Apesar das desvantagens, as migrations são amplamente usadas no
+desenvolvimento de aplicações web e podem trazer muitos benefícios para
+o processo de desenvolvimento, especialmente em projetos de grande porte
+ou com equipes distribuídas.</p>
+<h2
+id="migrations-exemplo-de-implementação-usando-laravel-migrations">Migrations:
+Exemplo de implementação usando Laravel Migrations</h2>
+<p>No Laravel, as migrations são implementadas como classes do PHP que
+contêm métodos para a criação e modificação de tabelas no banco de
+dados. Cada migration é armazenada em um arquivo separado no diretório
+<code>database/migrations</code>.</p>
+<p>Para criar uma nova migration, você pode usar o comando
+<code>make:migration</code> do Laravel. Por exemplo, o comando a seguir
+cria uma nova migration chamada <code>create_users_table</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan make:migration create_users_table</span></code></pre></div>
+<p>Isso criará um novo arquivo de migration em
+<code>database/migrations</code> com um nome no formato
+<code>YYYY_MM_DD_HHMMSS_create_users_table.php</code>, onde
+<code>YYYY_MM_DD_HHMMSS</code> é a data e hora atuais.</p>
+<p>Dentro do arquivo de migration, você pode usar métodos para criar ou
+modificar tabelas no banco de dados. Por exemplo, o método
+<code>up</code> é executado quando a migration é aplicada e pode ser
+usado para criar tabelas:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">M</span>igrations\<span class="cn">M</span>igration<span class="ot">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">S</span>chema\<span class="cn">B</span>lueprint<span class="ot">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">S</span>upport\<span class="cn">F</span>acades\<span class="cn">S</span>chema<span class="ot">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reateUsersTable <span class="kw">extends</span> <span class="cn">M</span>igration</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> up()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::create(<span class="st">&#39;users&#39;</span><span class="ot">,</span> <span class="kw">function</span> (<span class="cn">B</span>lueprint <span class="va">$table</span>) {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;id()<span class="ot">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;name&#39;</span>)<span class="ot">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;email&#39;</span>)-&gt;unique()<span class="ot">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamp(<span class="st">&#39;email_verified_at&#39;</span>)-&gt;nullable()<span class="ot">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;password&#39;</span>)<span class="ot">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;rememberToken()<span class="ot">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamps()<span class="ot">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        })<span class="ot">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> down()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::dropIfExists(<span class="st">&#39;users&#39;</span>)<span class="ot">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>O método <code>up</code> cria a tabela <code>users</code> com as
+colunas <code>id</code>, <code>name</code>, <code>email</code>,
+<code>email_verified_at</code>, <code>password</code>,
+<code>remember_token</code>, <code>created_at</code> e
+<code>updated_at</code>. O método <code>down</code> é executado quando a
+migration é revertida e remove a tabela <code>users</code>.</p>
+<p>Para aplicar a migration, você pode usar o comando
+<code>migrate</code> do Laravel:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan migrate</span></code></pre></div>
+<p>Isso aplicará todas as migrations que ainda não foram aplicadas ao
+banco de dados.</p>
+<p>O Laravel também fornece métodos adicionais para modificar tabelas
+existentes, como <code>addColumn</code>, <code>renameColumn</code> e
+<code>dropColumn</code>. Consulte a documentação do Laravel para obter
+mais informações sobre as opções de migração disponíveis.</p>
+<h1 id="orm-e-relacionamentos-entre-entidades">ORM e Relacionamentos
+entre Entidades</h1>
+<h2 id="definição-de-orm">Definição de ORM</h2>
+<h2 id="orm-vantagens-e-desvantagens">ORM: Vantagens e desvantagens</h2>
+<h2 id="relacionamentos-entre-entidades">Relacionamentos entre
+entidades</h2>
+<h3 id="relacionamentos-um-para-um">Relacionamentos: Um para Um</h3>
+<h3 id="relacionamentos-um-para-muitos">Relacionamentos: Um para
+Muitos</h3>
+<h3 id="relacionamentos-muitos-para-muitos">Relacionamentos: Muitos para
+Muitos</h3>
+<h2 id="orm-exemplo-de-implementação-usando-laravel-eloquent">ORM:
+Exemplo de implementação usando Laravel Eloquent</h2>
+<h1 id="frameworks-vuejs-e-inertia">Frameworks VueJS e Inertia</h1>
+<h2 id="introdução-ao-vuejs">Introdução ao VueJS</h2>
+<h3 id="vuejs-definição-e-funcionamento">VueJS: Definição e
+funcionamento</h3>
+<h3 id="vuejs-principais-recursos-e-benefícios">VueJS: Principais
+recursos e benefícios</h3>
+<h2 id="introdução-ao-inertia">Introdução ao Inertia</h2>
+<h3 id="inertia-definição-e-funcionamento">Inertia: Definição e
+funcionamento</h3>
+<h3 id="inertia-como-funciona-em-conjunto-com-o-laravel">Inertia: Como
+funciona em conjunto com o Laravel</h3>
+<h1 id="outros-conceitos-importantes">Outros Conceitos Importantes</h1>
+<h2 id="spa-single-page-applications">SPA (Single-Page
+Applications)</h2>
+<h2 id="api-application-programming-interface">API (Application
+Programming Interface)</h2>
+<h2 id="ssr-server-side-rendering">SSR (Server-Side Rendering)</h2>
+<h2 id="csr-client-side-rendering">CSR (Client-Side Rendering)</h2>
+<h2 id="pwa-progressive-web-apps">PWA (Progressive Web Apps)</h2>
+<h1 id="conclusão">Conclusão</h1>
+<h2 id="recapitulação-dos-principais-tópicos">Recapitulação dos
+principais tópicos</h2>
+<h2
+id="pontos-fortes-e-fracos-de-cada-arquitetura-framework-e-conceito-discutido">Pontos
+fortes e fracos de cada arquitetura, framework e conceito discutido</h2>
+<h2 id="considerações-finais">Considerações finais</h2>
+</body>
+</html>
