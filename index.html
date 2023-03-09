@@ -224,6 +224,8 @@ id="toc-ssr-server-side-rendering">SSR (Server-Side Rendering)</a></li>
 id="toc-csr-client-side-rendering">CSR (Client-Side Rendering)</a></li>
 <li><a href="#pwa-progressive-web-apps"
 id="toc-pwa-progressive-web-apps">PWA (Progressive Web Apps)</a></li>
+<li><a href="#i18n-internationalization"
+id="toc-i18n-internationalization">I18N (Internationalization)</a></li>
 </ul></li>
 <li><a href="#conclusão" id="toc-conclusão">Conclusão</a>
 <ul>
@@ -639,10 +641,138 @@ que a aplicação seja escalável, confiável e fácil de manter ao longo do
 tempo.</p>
 <h2 id="migrations-vantagens-e-desvantagens">Migrations: Vantagens e
 desvantagens</h2>
+<p>As vantagens de usar um ORM em uma aplicação incluem:</p>
+<ol type="1">
+<li><p>Redução do tempo de desenvolvimento: o ORM elimina a necessidade
+de escrever consultas SQL manualmente, reduzindo assim o tempo
+necessário para implementar a lógica de acesso a dados da
+aplicação.</p></li>
+<li><p>Facilidade de manutenção: o ORM abstrai a lógica de acesso a
+dados e a encapsula em modelos de objetos. Isso ajuda a manter o código
+mais organizado e legível e facilita a manutenção da aplicação.</p></li>
+<li><p>Portabilidade: o ORM abstrai as diferenças entre os diferentes
+bancos de dados relacionais, o que facilita a mudança de banco de dados
+sem ter que mudar o código da aplicação.</p></li>
+<li><p>Gerenciamento de relacionamentos: os ORMs permitem definir
+relacionamentos entre tabelas de forma fácil e intuitiva, ajudando a
+evitar erros e simplificando a escrita de consultas complexas.</p></li>
+</ol>
+<p>No entanto, o uso de um ORM também pode ter algumas desvantagens:</p>
+<ol type="1">
+<li><p>Overhead: o uso de um ORM pode aumentar o overhead da aplicação,
+já que as consultas SQL são geradas em tempo de execução.</p></li>
+<li><p>Restrições: os ORMs podem impor algumas restrições ao projeto da
+base de dados, o que pode limitar a sua flexibilidade em alguns
+casos.</p></li>
+<li><p>Curva de aprendizado: os ORMs geralmente têm uma curva de
+aprendizado mais longa do que simplesmente escrever consultas SQL
+manualmente.</p></li>
+</ol>
+<p>Em geral, o uso de um ORM é uma escolha importante para as
+aplicações, que pode afetar a sua manutenção e desempenho. Cada caso
+deve ser analisado para decidir se usar um ORM é a melhor escolha.</p>
+<p>Em um relacionamento um para um (1:1), cada registro de uma tabela
+está associado a no máximo um registro na outra tabela e vice-versa. Por
+exemplo, suponha que estamos desenvolvendo uma aplicação que gerencia
+funcionários e departamentos. Cada funcionário pode ser associado a
+apenas um departamento, e cada departamento pode ter no máximo um
+gerente.</p>
+<p>Para implementar um relacionamento um para um entre as tabelas
+“funcionários” e “departamentos”, podemos adicionar uma chave
+estrangeira na tabela “funcionários” que referencia a chave primária da
+tabela “departamentos”. Além disso, a tabela “departamentos” também deve
+ter uma chave estrangeira que referencia a chave primária da tabela
+“funcionários”, para garantir que cada departamento tenha no máximo um
+gerente.</p>
+<p>No Laravel, podemos definir o relacionamento um para um usando o
+método <code>hasOne</code> no modelo correspondente. Por exemplo, na
+classe <code>Funcionario</code>, podemos adicionar o seguinte
+método:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> departamento()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;hasOne(<span class="cn">D</span>epartamento::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Funcionario</code> possui um único
+<code>Departamento</code>, e usa a convenção de nomeclatura do Laravel
+para encontrar a chave estrangeira correspondente na tabela
+<code>departamentos</code>.</p>
+<p>Podemos então acessar o departamento de um funcionário chamando o
+método <code>departamento</code>, que retorna o objeto
+<code>Departamento</code> associado. Por exemplo:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">$funcionario</span> <span class="op">=</span> <span class="cn">F</span>uncionario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">$departamento</span> <span class="op">=</span> <span class="va">$funcionario</span>-&gt;departamento<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna o departamento associado ao funcionário com ID
+1.</p>
 <p>As migrations apresentam diversas vantagens e desvantagens no
-processo de desenvolvimento de uma aplicação web. Algumas das principais
-são:</p>
+processo</p>
+<p>As vantagens de usar um ORM em uma aplicação incluem:</p>
+<ol type="1">
+<li><p>Redução do tempo de desenvolvimento: o ORM elimina a necessidade
+de escrever consultas SQL manualmente, reduzindo assim o tempo
+necessário para implementar a lógica de acesso a dados da
+aplicação.</p></li>
+<li><p>Facilidade de manutenção: o ORM abstrai a lógica de acesso a
+dados e a encapsula em modelos de objetos. Isso ajuda a manter o código
+mais organizado e legível e facilita a manutenção da aplicação.</p></li>
+<li><p>Portabilidade: o ORM abstrai as diferenças entre os diferentes
+bancos de dados relacionais, o que facilita a mudança de banco de dados
+sem ter que mudar o código da aplicação.</p></li>
+<li><p>Gerenciamento de relacionamentos: os ORMs permitem definir
+relacionamentos entre tabelas de forma fácil e intuitiva, ajudando a
+evitar erros e simplificando a escrita de consultas complexas.</p></li>
+</ol>
+<p>No entanto, o uso de um ORM também pode ter algumas desvantagens:</p>
+<ol type="1">
+<li><p>Overhead: o uso de um ORM pode aumentar o overhead da aplicação,
+já que as consultas SQL são geradas em tempo de execução.</p></li>
+<li><p>Restrições: os ORMs podem impor algumas restrições ao projeto da
+base de dados, o que pode limitar a sua flexibilidade em alguns
+casos.</p></li>
+<li><p>Curva de aprendizado: os ORMs geralmente têm uma curva de
+aprendizado mais longa do que simplesmente escrever consultas SQL
+manualmente.</p></li>
+</ol>
+<p>Em geral, o uso de um ORM é uma escolha importante para as
+aplicações, que pode afetar a sua manutenção e desempenho. Cada caso
+deve ser analisado para decidir se usar um ORM é a melhor escolha. de
+desenvolvimento de uma aplicação web. Algumas das principais são:</p>
 <h4 id="vantagens">Vantagens</h4>
+<p>Em um relacionamento um para um (1:1), cada registro de uma tabela
+está associado a no máximo um registro na outra tabela e vice-versa. Por
+exemplo, suponha que estamos desenvolvendo uma aplicação que gerencia
+funcionários e departamentos. Cada funcionário pode ser associado a
+apenas um departamento, e cada departamento pode ter no máximo um
+gerente.</p>
+<p>Para implementar um relacionamento um para um entre as tabelas
+“funcionários” e “departamentos”, podemos adicionar uma chave
+estrangeira na tabela “funcionários” que referencia a chave primária da
+tabela “departamentos”. Além disso, a tabela “departamentos” também deve
+ter uma chave estrangeira que referencia a chave primária da tabela
+“funcionários”, para garantir que cada departamento tenha no máximo um
+gerente.</p>
+<p>No Laravel, podemos definir o relacionamento um para um usando o
+método <code>hasOne</code> no modelo correspondente. Por exemplo, na
+classe <code>Funcionario</code>, podemos adicionar o seguinte
+método:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> departamento()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;hasOne(<span class="cn">D</span>epartamento::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Funcionario</code> possui um único
+<code>Departamento</code>, e usa a convenção de nomeclatura do Laravel
+para encontrar a chave estrangeira correspondente na tabela
+<code>departamentos</code>.</p>
+<p>Podemos então acessar o departamento de um funcionário chamando o
+método <code>departamento</code>, que retorna o objeto
+<code>Departamento</code> associado. Por exemplo:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">$funcionario</span> <span class="op">=</span> <span class="cn">F</span>uncionario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">$departamento</span> <span class="op">=</span> <span class="va">$funcionario</span>-&gt;departamento<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna o departamento associado ao funcionário com ID
+1.</p>
 <ul>
 <li><strong>Facilidade de gerenciamento do esquema do banco de
 dados:</strong> as migrations permitem que as mudanças no esquema do
@@ -674,10 +804,74 @@ migrations podem apresentar limitações em relação ao esquema do banco de
 dados ou ao tipo de mudança que pode ser feita. Isso pode exigir o uso
 de técnicas adicionais ou a criação de migrações personalizadas.</li>
 </ul>
-<p>Apesar das desvantagens, as migrations são amplamente usadas no
+<p>Apesar das desvantagens, as migrations são amplamente usadas no</p>
+<p>As vantagens de usar um ORM em uma aplicação incluem:</p>
+<ol type="1">
+<li><p>Redução do tempo de desenvolvimento: o ORM elimina a necessidade
+de escrever consultas SQL manualmente, reduzindo assim o tempo
+necessário para implementar a lógica de acesso a dados da
+aplicação.</p></li>
+<li><p>Facilidade de manutenção: o ORM abstrai a lógica de acesso a
+dados e a encapsula em modelos de objetos. Isso ajuda a manter o código
+mais organizado e legível e facilita a manutenção da aplicação.</p></li>
+<li><p>Portabilidade: o ORM abstrai as diferenças entre os diferentes
+bancos de dados relacionais, o que facilita a mudança de banco de dados
+sem ter que mudar o código da aplicação.</p></li>
+<li><p>Gerenciamento de relacionamentos: os ORMs permitem definir
+relacionamentos entre tabelas de forma fácil e intuitiva, ajudando a
+evitar erros e simplificando a escrita de consultas complexas.</p></li>
+</ol>
+<p>No entanto, o uso de um ORM também pode ter algumas desvantagens:</p>
+<ol type="1">
+<li><p>Overhead: o uso de um ORM pode aumentar o overhead da aplicação,
+já que as consultas SQL são geradas em tempo de execução.</p></li>
+<li><p>Restrições: os ORMs podem impor algumas restrições ao projeto da
+base de dados, o que pode limitar a sua flexibilidade em alguns
+casos.</p></li>
+<li><p>Curva de aprendizado: os ORMs geralmente têm uma curva de
+aprendizado mais longa do que simplesmente escrever consultas SQL
+manualmente.</p></li>
+</ol>
+<p>Em geral, o uso de um ORM é uma escolha importante para as
+aplicações, que pode afetar a sua manutenção e desempenho. Cada caso
+deve ser analisado para decidir se usar um ORM é a melhor escolha.
 desenvolvimento de aplicações web e podem trazer muitos benefícios para
 o processo de desenvolvimento, especialmente em projetos de grande porte
 ou com equipes distribuídas.</p>
+<p>Em um relacionamento um para um (1:1), cada registro de uma tabela
+está associado a no máximo um registro na outra tabela e vice-versa. Por
+exemplo, suponha que estamos desenvolvendo uma aplicação que gerencia
+funcionários e departamentos. Cada funcionário pode ser associado a
+apenas um departamento, e cada departamento pode ter no máximo um
+gerente.</p>
+<p>Para implementar um relacionamento um para um entre as tabelas
+“funcionários” e “departamentos”, podemos adicionar uma chave
+estrangeira na tabela “funcionários” que referencia a chave primária da
+tabela “departamentos”. Além disso, a tabela “departamentos” também deve
+ter uma chave estrangeira que referencia a chave primária da tabela
+“funcionários”, para garantir que cada departamento tenha no máximo um
+gerente.</p>
+<p>No Laravel, podemos definir o relacionamento um para um usando o
+método <code>hasOne</code> no modelo correspondente. Por exemplo, na
+classe <code>Funcionario</code>, podemos adicionar o seguinte
+método:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> departamento()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;hasOne(<span class="cn">D</span>epartamento::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Funcionario</code> possui um único
+<code>Departamento</code>, e usa a convenção de nomeclatura do Laravel
+para encontrar a chave estrangeira correspondente na tabela
+<code>departamentos</code>.</p>
+<p>Podemos então acessar o departamento de um funcionário chamando o
+método <code>departamento</code>, que retorna o objeto
+<code>Departamento</code> associado. Por exemplo:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">$funcionario</span> <span class="op">=</span> <span class="cn">F</span>uncionario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">$departamento</span> <span class="op">=</span> <span class="va">$funcionario</span>-&gt;departamento<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna o departamento associado ao funcionário com ID
+1.</p>
 <h2
 id="migrations-exemplo-de-implementação-usando-laravel-migrations">Migrations:
 Exemplo de implementação usando Laravel Migrations</h2>
@@ -688,8 +882,8 @@ dados. Cada migration é armazenada em um arquivo separado no diretório
 <p>Para criar uma nova migration, você pode usar o comando
 <code>make:migration</code> do Laravel. Por exemplo, o comando a seguir
 cria uma nova migration chamada <code>create_users_table</code>:</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan make:migration create_users_table</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan make:migration create_users_table</span></code></pre></div>
 <p>Isso criará um novo arquivo de migration em
 <code>database/migrations</code> com um nome no formato
 <code>YYYY_MM_DD_HHMMSS_create_users_table.php</code>, onde
@@ -698,31 +892,31 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="
 modificar tabelas no banco de dados. Por exemplo, o método
 <code>up</code> é executado quando a migration é aplicada e pode ser
 usado para criar tabelas:</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode php"><code class="sourceCode php"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">M</span>igrations\<span class="cn">M</span>igration<span class="ot">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">S</span>chema\<span class="cn">B</span>lueprint<span class="ot">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">S</span>upport\<span class="cn">F</span>acades\<span class="cn">S</span>chema<span class="ot">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reateUsersTable <span class="kw">extends</span> <span class="cn">M</span>igration</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> up()</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::create(<span class="st">&#39;users&#39;</span><span class="ot">,</span> <span class="kw">function</span> (<span class="cn">B</span>lueprint <span class="va">$table</span>) {</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;id()<span class="ot">;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;name&#39;</span>)<span class="ot">;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;email&#39;</span>)-&gt;unique()<span class="ot">;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamp(<span class="st">&#39;email_verified_at&#39;</span>)-&gt;nullable()<span class="ot">;</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;password&#39;</span>)<span class="ot">;</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;rememberToken()<span class="ot">;</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamps()<span class="ot">;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        })<span class="ot">;</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> down()</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::dropIfExists(<span class="st">&#39;users&#39;</span>)<span class="ot">;</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">M</span>igrations\<span class="cn">M</span>igration<span class="ot">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">S</span>chema\<span class="cn">B</span>lueprint<span class="ot">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">S</span>upport\<span class="cn">F</span>acades\<span class="cn">S</span>chema<span class="ot">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reateUsersTable <span class="kw">extends</span> <span class="cn">M</span>igration</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> up()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::create(<span class="st">&#39;users&#39;</span><span class="ot">,</span> <span class="kw">function</span> (<span class="cn">B</span>lueprint <span class="va">$table</span>) {</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;id()<span class="ot">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;name&#39;</span>)<span class="ot">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;email&#39;</span>)-&gt;unique()<span class="ot">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamp(<span class="st">&#39;email_verified_at&#39;</span>)-&gt;nullable()<span class="ot">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;<span class="dt">string</span>(<span class="st">&#39;password&#39;</span>)<span class="ot">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;rememberToken()<span class="ot">;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">$table</span>-&gt;timestamps()<span class="ot">;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        })<span class="ot">;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> down()</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="cn">S</span>chema::dropIfExists(<span class="st">&#39;users&#39;</span>)<span class="ot">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>O método <code>up</code> cria a tabela <code>users</code> com as
 colunas <code>id</code>, <code>name</code>, <code>email</code>,
 <code>email_verified_at</code>, <code>password</code>,
@@ -731,8 +925,8 @@ colunas <code>id</code>, <code>name</code>, <code>email</code>,
 migration é revertida e remove a tabela <code>users</code>.</p>
 <p>Para aplicar a migration, você pode usar o comando
 <code>migrate</code> do Laravel:</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan migrate</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">php</span> artisan migrate</span></code></pre></div>
 <p>Isso aplicará todas as migrations que ainda não foram aplicadas ao
 banco de dados.</p>
 <p>O Laravel também fornece métodos adicionais para modificar tabelas
@@ -742,38 +936,532 @@ mais informações sobre as opções de migração disponíveis.</p>
 <h1 id="orm-e-relacionamentos-entre-entidades">ORM e Relacionamentos
 entre Entidades</h1>
 <h2 id="definição-de-orm">Definição de ORM</h2>
+<p>ORM significa “Object-Relational Mapping” (Mapeamento
+Objeto-Relacional) e é uma técnica de programação que permite mapear as
+tabelas de um banco de dados relacional em objetos da linguagem de
+programação utilizada, permitindo assim que o desenvolvedor manipule as
+informações do banco de dados através de objetos em vez de escrever
+queries SQL.</p>
+<p>Com um ORM, é possível definir as tabelas do banco de dados como
+classes e as colunas como atributos dessas classes. Os registros do
+banco de dados são mapeados em objetos dessas classes e as operações
+CRUD (Create, Read, Update, Delete) podem ser realizadas de forma mais
+simples e intuitiva.</p>
+<p>Além disso, o ORM ajuda a manter o código mais organizado e legível,
+pois a lógica de acesso ao banco de dados é encapsulada nas classes do
+modelo em vez de ficar espalhada por todo o código da aplicação.</p>
+<p>O ORM também permite que o desenvolvedor trabalhe com os dados do
+banco de dados em um nível mais alto de abstração, independentemente do
+banco de dados subjacente, já que o ORM abstrai as diferenças entre os
+diferentes bancos de dados relacionais.</p>
+<p>O Laravel vem com um ORM integrado chamado Eloquent, que é uma
+implementação do padrão Active Record. O Eloquent fornece uma sintaxe
+amigável para a criação de consultas de banco de dados e gerenciamento
+de relacionamentos entre tabelas, além de incluir recursos como escopos
+globais e locais, mutadores, acessadores e muito mais.</p>
 <h2 id="orm-vantagens-e-desvantagens">ORM: Vantagens e desvantagens</h2>
+<p>As vantagens de usar um ORM em uma aplicação incluem:</p>
+<ol type="1">
+<li><p>Redução do tempo de desenvolvimento: o ORM elimina a necessidade
+de escrever consultas SQL manualmente, reduzindo assim o tempo
+necessário para implementar a lógica de acesso a dados da
+aplicação.</p></li>
+<li><p>Facilidade de manutenção: o ORM abstrai a lógica de acesso a
+dados e a encapsula em modelos de objetos. Isso ajuda a manter o código
+mais organizado e legível e facilita a manutenção da aplicação.</p></li>
+<li><p>Portabilidade: o ORM abstrai as diferenças entre os diferentes
+bancos de dados relacionais, o que facilita a mudança de banco de dados
+sem ter que mudar o código da aplicação.</p></li>
+<li><p>Gerenciamento de relacionamentos: os ORMs permitem definir
+relacionamentos entre tabelas de forma fácil e intuitiva, ajudando a
+evitar erros e simplificando a escrita de consultas complexas.</p></li>
+</ol>
+<p>No entanto, o uso de um ORM também pode ter algumas desvantagens:</p>
+<ol type="1">
+<li><p>Overhead: o uso de um ORM pode aumentar o overhead da aplicação,
+já que as consultas SQL são geradas em tempo de execução.</p></li>
+<li><p>Restrições: os ORMs podem impor algumas restrições ao projeto da
+base de dados, o que pode limitar a sua flexibilidade em alguns
+casos.</p></li>
+<li><p>Curva de aprendizado: os ORMs geralmente têm uma curva de
+aprendizado mais longa do que simplesmente escrever consultas SQL
+manualmente.</p></li>
+</ol>
+<p>Em geral, o uso de um ORM é uma escolha importante para as
+aplicações, que pode afetar a sua manutenção e desempenho. Cada caso
+deve ser analisado para decidir se usar um ORM é a melhor escolha.</p>
 <h2 id="relacionamentos-entre-entidades">Relacionamentos entre
 entidades</h2>
+<p>Para utilizar um ORM é preciso antes definir a modelagem do banco de
+dados, a partir do modelo entidade-relacionamento. Uma vez que este
+modelo esteja definido, pode-se adicionar as informações de
+relacionamentos às classes para que a manipulação possa ser feita
+através de objetos destas classes.</p>
 <h3 id="relacionamentos-um-para-um">Relacionamentos: Um para Um</h3>
+<p>Em um relacionamento um para um (1:1), cada registro de uma tabela
+está associado a no máximo um registro na outra tabela e vice-versa. Por
+exemplo, suponha que estamos desenvolvendo uma aplicação que gerencia
+funcionários e departamentos. Cada funcionário pode ser associado a
+apenas um departamento, e cada departamento pode ter no máximo um
+gerente.</p>
+<p>Para implementar um relacionamento um para um entre as tabelas
+“funcionários” e “departamentos”, podemos adicionar uma chave
+estrangeira na tabela “funcionários” que referencia a chave primária da
+tabela “departamentos”. Além disso, a tabela “departamentos” também deve
+ter uma chave estrangeira que referencia a chave primária da tabela
+“funcionários”, para garantir que cada departamento tenha no máximo um
+gerente.</p>
+<p>No Laravel, podemos definir o relacionamento um para um usando o
+método <code>hasOne</code> no modelo correspondente. Por exemplo, na
+classe <code>Funcionario</code>, podemos adicionar o seguinte
+método:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> departamento()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;hasOne(<span class="cn">D</span>epartamento::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Funcionario</code> possui um único
+<code>Departamento</code>, e usa a convenção de nomeclatura do Laravel
+para encontrar a chave estrangeira correspondente na tabela
+<code>departamentos</code>.</p>
+<p>Podemos então acessar o departamento de um funcionário chamando o
+método <code>departamento</code>, que retorna o objeto
+<code>Departamento</code> associado. Por exemplo:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">$funcionario</span> <span class="op">=</span> <span class="cn">F</span>uncionario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">$departamento</span> <span class="op">=</span> <span class="va">$funcionario</span>-&gt;departamento<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna o departamento associado ao funcionário com ID
+1.</p>
 <h3 id="relacionamentos-um-para-muitos">Relacionamentos: Um para
 Muitos</h3>
+<p>Em um relacionamento um para muitos (1:N), cada registro em uma
+tabela pode estar associado a vários registros na outra tabela, mas cada
+registro na outra tabela está associado a no máximo um registro na
+primeira tabela. Por exemplo, em uma aplicação de comércio eletrônico,
+um pedido pode estar associado a vários itens, mas cada item está
+associado a apenas um pedido.</p>
+<p>Para implementar um relacionamento um para muitos entre as tabelas
+“pedidos” e “itens”, podemos adicionar uma chave estrangeira na tabela
+“itens” que referencia a chave primária da tabela “pedidos”. Dessa
+forma, cada item é associado a um único pedido.</p>
+<p>No Laravel, podemos definir o relacionamento um para muitos usando o
+método <code>hasMany</code> no modelo correspondente. Por exemplo, na
+classe <code>Pedido</code>, podemos adicionar o seguinte método:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> itens()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;hasMany(<span class="cn">I</span>tem::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Pedido</code> pode ter vários
+<code>Itens</code>, e usa a convenção de nomeclatura do Laravel para
+encontrar a chave estrangeira correspondente na tabela
+<code>itens</code>.</p>
+<p>Podemos então acessar os itens de um pedido chamando o método
+<code>itens</code>, que retorna uma coleção de objetos
+<code>Item</code>. Por exemplo:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">$pedido</span> <span class="op">=</span> <span class="cn">P</span>edido::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">$itens</span> <span class="op">=</span> <span class="va">$pedido</span>-&gt;itens<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna todos os itens associados ao pedido com ID 1.
+Podemos também adicionar um novo item ao pedido usando o método
+<code>create</code>:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">$pedido</span> <span class="op">=</span> <span class="cn">P</span>edido::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">$pedido</span>-&gt;itens()-&gt;create([</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;nome&#39;</span> =&gt; <span class="st">&#39;Item 1&#39;</span><span class="ot">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;preco&#39;</span> =&gt; <span class="fl">10.0</span><span class="ot">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>])<span class="ot">;</span></span></code></pre></div>
+<p>Esse código cria um novo item e o associa ao pedido com ID 1. O
+método <code>create</code> também permite definir outros atributos do
+novo item, além daqueles que correspondem às colunas na tabela
+<code>itens</code>.</p>
 <h3 id="relacionamentos-muitos-para-muitos">Relacionamentos: Muitos para
 Muitos</h3>
+<p>Em um relacionamento muitos para muitos (N:N), cada registro em uma
+tabela pode estar associado a vários registros na outra tabela e
+vice-versa. Por exemplo, em uma aplicação de redes sociais, um usuário
+pode estar associado a vários grupos, e cada grupo pode ter vários
+usuários.</p>
+<p>Para implementar um relacionamento muitos para muitos entre as
+tabelas “usuarios” e “grupos”, precisamos criar uma terceira tabela
+(também conhecida como tabela pivô) que armazena as associações entre as
+duas tabelas. Essa tabela geralmente contém apenas as chaves primárias
+das outras duas tabelas.</p>
+<p>No Laravel, podemos definir o relacionamento muitos para muitos
+usando o método <code>belongsToMany</code> no modelo correspondente. Por
+exemplo, na classe <code>Usuario</code>, podemos adicionar o seguinte
+método:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> grupos()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;belongsToMany(<span class="cn">G</span>rupo::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Usuario</code> pode pertencer a
+vários <code>Grupos</code>, e vice-versa.</p>
+<p>Para usar o relacionamento, precisamos definir a tabela pivô
+correspondente. No Laravel, a convenção de nomeclatura para essa tabela
+é o nome das outras duas tabelas em ordem alfabética, separadas por um
+sublinhado. Por exemplo, para as tabelas “usuarios” e “grupos”, a tabela
+pivô seria “grupo_usuario”.</p>
+<p>Podemos definir a tabela pivô usando o método
+<code>belongsToMany</code> no outro modelo. Por exemplo, na classe
+<code>Grupo</code>, podemos adicionar o seguinte método:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> usuarios()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$this</span>-&gt;belongsToMany(<span class="cn">U</span>suario::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Esse método define que um <code>Grupo</code> pode ter vários
+<code>Usuarios</code>, e usa a tabela pivô correspondente.</p>
+<p>Podemos então acessar os grupos de um usuário chamando o método
+<code>grupos</code>, que retorna uma coleção de objetos
+<code>Grupo</code>. Por exemplo:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">$usuario</span> <span class="op">=</span> <span class="cn">U</span>suario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="va">$grupos</span> <span class="op">=</span> <span class="va">$usuario</span>-&gt;grupos<span class="ot">;</span></span></code></pre></div>
+<p>Esse código retorna todos os grupos associados ao usuário com ID 1.
+Podemos também adicionar um novo grupo ao usuário usando o método
+<code>attach</code>:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">$usuario</span> <span class="op">=</span> <span class="cn">U</span>suario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">$usuario</span>-&gt;grupos()-&gt;attach(<span class="dv">1</span>)<span class="ot">;</span></span></code></pre></div>
+<p>Esse código adiciona o grupo com ID 1 à lista de grupos associados ao
+usuário com ID 1. Podemos remover um grupo da lista usando o método
+<code>detach</code>:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="va">$usuario</span> <span class="op">=</span> <span class="cn">U</span>suario::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="va">$usuario</span>-&gt;grupos()-&gt;detach(<span class="dv">1</span>)<span class="ot">;</span></span></code></pre></div>
+<p>Esse código remove o grupo com ID 1 da lista de grupos associados ao
+usuário com ID 1.</p>
 <h2 id="orm-exemplo-de-implementação-usando-laravel-eloquent">ORM:
 Exemplo de implementação usando Laravel Eloquent</h2>
+<p>Para exemplificar a utilização de ORM em uma aplicação web utilizando
+o framework Laravel, vamos utilizar o Eloquent, que é o ORM padrão do
+Laravel.</p>
+<p>Para criar um modelo usando o Eloquent, basta criar uma classe que
+estenda a classe <code>Illuminate\Database\Eloquent\Model</code>. Por
+exemplo, suponha que desejamos criar um modelo para a tabela “users” do
+nosso banco de dados. Podemos criar um arquivo <code>User.php</code> em
+<code>app/Models</code> com o seguinte conteúdo:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> <span class="cn">A</span>pp\<span class="cn">M</span>odels<span class="ot">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">I</span>lluminate\<span class="cn">D</span>atabase\<span class="cn">E</span>loquent\<span class="cn">M</span>odel<span class="ot">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">U</span>ser <span class="kw">extends</span> <span class="cn">M</span>odel</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="va">$table</span> <span class="op">=</span> <span class="st">&#39;users&#39;</span><span class="ot">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Com essa simples classe, já temos um modelo que pode ser utilizado
+para fazer consultas no banco de dados. Por exemplo, podemos fazer uma
+consulta para obter todos os usuários com o seguinte código:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">$users</span> <span class="op">=</span> <span class="cn">U</span>ser::all()<span class="ot">;</span></span></code></pre></div>
+<p>Podemos também fazer uma consulta para obter um usuário específico
+pelo seu ID:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="cn">U</span>ser::find(<span class="dv">1</span>)<span class="ot">;</span></span></code></pre></div>
+<p>Além disso, podemos utilizar o Eloquent para fazer outras operações
+comuns em bancos de dados, como inserir, atualizar e excluir registros.
+Por exemplo, para inserir um novo usuário, podemos fazer o seguinte:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="kw">new</span> <span class="cn">U</span>ser<span class="ot">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;name <span class="op">=</span> <span class="st">&#39;John Doe&#39;</span><span class="ot">;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;email <span class="op">=</span> <span class="st">&#39;johndoe@example.com&#39;</span><span class="ot">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;save()<span class="ot">;</span></span></code></pre></div>
+<p>Para atualizar um usuário existente, podemos fazer o seguinte:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="cn">U</span>ser::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;name <span class="op">=</span> <span class="st">&#39;Jane Doe&#39;</span><span class="ot">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;save()<span class="ot">;</span></span></code></pre></div>
+<p>E para excluir um usuário, podemos fazer o seguinte:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="cn">U</span>ser::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span>-&gt;delete()<span class="ot">;</span></span></code></pre></div>
+<p>O Eloquent também oferece suporte a relacionamentos entre tabelas,
+permitindo que consultas complexas possam ser feitas com facilidade. Por
+exemplo, suponha que temos uma tabela “posts” que possui um campo
+“user_id” que referencia o usuário que criou o post. Podemos definir o
+relacionamento entre as tabelas da seguinte forma:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">U</span>ser <span class="kw">extends</span> <span class="cn">M</span>odel</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="va">$table</span> <span class="op">=</span> <span class="st">&#39;users&#39;</span><span class="ot">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> posts()</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">$this</span>-&gt;hasMany(<span class="st">&#39;App\Models\Post&#39;</span>)<span class="ot">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">P</span>ost <span class="kw">extends</span> <span class="cn">M</span>odel</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="va">$table</span> <span class="op">=</span> <span class="st">&#39;posts&#39;</span><span class="ot">;</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> user()</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">$this</span>-&gt;belongsTo(<span class="st">&#39;App\Models\User&#39;</span>)<span class="ot">;</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Com essas definições de relacionamento, podemos facilmente obter
+todos os posts de um usuário ou o usuário que criou um determinado post.
+Por exemplo:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="cn">U</span>ser::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="va">$posts</span> <span class="op">=</span> <span class="va">$user</span>-&gt;posts<span class="ot">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="va">$post</span> <span class="op">=</span> <span class="cn">P</span>ost::find(<span class="dv">1</span>)<span class="ot">;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="va">$user</span> <span class="op">=</span> <span class="va">$post</span>-&gt;user<span class="ot">;</span></span></code></pre></div>
+<p>Esses são apenas alguns exemplos das funcionalidades do Eloquent, que
+oferece muitas outras funcionalidades para facilitar o trabalho com
+bancos de dados em aplicações web.</p>
 <h1 id="frameworks-vuejs-e-inertia">Frameworks VueJS e Inertia</h1>
 <h2 id="introdução-ao-vuejs">Introdução ao VueJS</h2>
 <h3 id="vuejs-definição-e-funcionamento">VueJS: Definição e
 funcionamento</h3>
+<p>VueJS é um framework JavaScript de código aberto, utilizado para a
+construção de interfaces de usuário e aplicações de página única (SPA,
+sigla em inglês para Single Page Applications). Ele foi criado por Evan
+You em 2014 e se popularizou rapidamente entre desenvolvedores web.</p>
+<p>O VueJS é baseado em componentes reutilizáveis, o que torna seu
+código mais limpo e fácil de manter. Ele oferece uma estrutura para a
+construção de interfaces de usuário reativas, ou seja, que respondem
+automaticamente a mudanças em dados.</p>
+<p>O funcionamento do VueJS se baseia na criação de instâncias de Vue,
+que representam o modelo de dados de uma aplicação. Essas instâncias são
+então renderizadas em componentes que podem ser compostos em
+hierarquias, criando a interface gráfica da aplicação. O VueJS também
+oferece uma API de diretivas, que permite a manipulação do DOM de
+maneira simples e intuitiva.</p>
 <h3 id="vuejs-principais-recursos-e-benefícios">VueJS: Principais
 recursos e benefícios</h3>
+<p>O VueJS é uma ferramenta poderosa para a construção de interfaces de
+usuário e aplicações web. Entre seus principais recursos e benefícios
+estão:</p>
+<ol type="1">
+<li><p>Reatividade: O VueJS é uma biblioteca reativa, o que significa
+que ele atualiza automaticamente a interface do usuário sempre que os
+dados da aplicação mudam. Isso torna a criação de interfaces de usuário
+mais simples e intuitiva.</p></li>
+<li><p>Componentização: O VueJS é baseado em componentes, o que
+significa que as diferentes partes da interface do usuário podem ser
+separadas em pequenos blocos reutilizáveis de código. Isso torna o
+desenvolvimento mais rápido e eficiente.</p></li>
+<li><p>Directivas: O VueJS oferece um conjunto de diretivas que permitem
+a manipulação do DOM de maneira simples e intuitiva. As diretivas mais
+comuns são v-bind, v-if, v-for e v-on.</p></li>
+<li><p>Templates: O VueJS utiliza templates HTML para definir a
+interface do usuário. Isso torna o código mais legível e fácil de
+entender.</p></li>
+<li><p>Suporte a filtros: O VueJS suporta filtros, que podem ser usados
+para formatar dados na interface do usuário. Isso torna a exibição de
+dados mais fácil e personalizada.</p></li>
+<li><p>Suporte a plugins: O VueJS tem um ecossistema de plugins que
+adicionam recursos adicionais ao framework. Existem plugins para
+roteamento, gerenciamento de estado, validação de formulários, entre
+outros.</p></li>
+<li><p>Desempenho: O VueJS é conhecido por seu desempenho e velocidade.
+Ele utiliza uma técnica de virtualização de DOM que permite a
+renderização rápida de grandes conjuntos de dados.</p></li>
+<li><p>Documentação: O VueJS possui uma documentação abrangente e fácil
+de entender, além de uma grande comunidade de desenvolvedores ativos que
+estão sempre dispostos a ajudar.</p></li>
+<li><p>Curva de aprendizado fácil: O VueJS possui uma curva de
+aprendizado fácil e é amigável para desenvolvedores iniciantes, mas
+também oferece recursos avançados para desenvolvedores
+experientes.</p></li>
+</ol>
+<p>Por esses motivos, o VueJS é uma das ferramentas mais populares para
+o desenvolvimento de interfaces de usuário e aplicações web
+modernas.</p>
 <h2 id="introdução-ao-inertia">Introdução ao Inertia</h2>
 <h3 id="inertia-definição-e-funcionamento">Inertia: Definição e
 funcionamento</h3>
+<p>Inertia é uma biblioteca para desenvolvimento web que permite que
+aplicações sejam construídas utilizando componentes de front-end em
+frameworks modernos, como VueJS e React, sem a necessidade de criar
+rotas em sua aplicação back-end.</p>
+<p>O Inertia funciona como uma ponte entre o back-end e o front-end,
+permitindo que o back-end envie um componente específico do front-end
+para o navegador, o que evita que o navegador precise buscar os dados
+novamente, pois a lógica do componente é gerenciada pelo back-end.</p>
+<p>Essa abordagem oferece várias vantagens, incluindo a possibilidade de
+utilizar os recursos modernos do front-end sem precisar de rotas
+duplicadas no back-end, resultando em uma aplicação mais rápida, além de
+possibilitar a criação de aplicações híbridas com uma experiência de
+usuário mais fluida.</p>
 <h3 id="inertia-como-funciona-em-conjunto-com-o-laravel">Inertia: Como
 funciona em conjunto com o Laravel</h3>
+<p>O Inertia foi desenvolvido originalmente para ser usado em conjunto
+com o framework Laravel, embora agora tenha suporte para outros
+frameworks também.</p>
+<p>Em uma aplicação Laravel, o Inertia é implementado por meio de um
+pacote Composer chamado “inertiajs/inertia-laravel”. O pacote fornece
+várias ferramentas que facilitam a integração do Inertia com o Laravel,
+incluindo um comando de Artisan para criar componentes, middlewares e
+controladores que são compatíveis com o Inertia.</p>
+<p>Uma vez que o pacote é instalado e configurado corretamente, é
+possível retornar as respostas do Inertia diretamente de um controlador
+do Laravel. Isso é feito através do método “inertia()” que é fornecido
+pelo pacote, o qual retorna uma instância do Inertia Response, que é um
+objeto responsável por enviar as informações do componente ao
+navegador.</p>
+<p>No geral, o processo de integração do Inertia com o Laravel é
+bastante simples e permite que desenvolvedores possam aproveitar os
+benefícios de ambas as tecnologias em uma única aplicação.</p>
 <h1 id="outros-conceitos-importantes">Outros Conceitos Importantes</h1>
 <h2 id="spa-single-page-applications">SPA (Single-Page
 Applications)</h2>
+<p>SPA (Single-Page Applications) é uma arquitetura de aplicação web que
+consiste em carregar uma única página HTML e atualizar dinamicamente
+apenas partes dela conforme o usuário interage com a aplicação. Em vez
+de fazer uma requisição para o servidor e carregar uma nova página a
+cada interação do usuário, o SPA carrega todos os recursos necessários
+para a página inicial e, em seguida, atualiza o conteúdo da página
+conforme o usuário interage com a aplicação.</p>
+<p>Essa arquitetura é possível graças ao uso de frameworks e bibliotecas
+JavaScript, como VueJS, React e Angular, que permitem a atualização
+dinâmica do conteúdo da página sem recarregar a página inteira. O SPA
+também pode se comunicar com o servidor através de APIs, que fornecem
+dados e serviços que são usados para atualizar o conteúdo da página.</p>
+<p>As vantagens do uso de SPA incluem uma experiência de usuário mais
+rápida e fluída, pois não há necessidade de carregar páginas adicionais
+a cada interação do usuário. Além disso, o SPA pode ser facilmente
+transformado em um aplicativo móvel usando frameworks de desenvolvimento
+de aplicativos móveis como o React Native ou o Ionic.</p>
+<p>No entanto, há desafios associados ao uso de SPA, como a necessidade
+de otimizar o desempenho da aplicação para garantir que o carregamento
+inicial seja rápido e a otimização de SEO, já que os motores de busca
+podem ter dificuldade em indexar o conteúdo de um SPA.</p>
 <h2 id="api-application-programming-interface">API (Application
 Programming Interface)</h2>
+<p>API (Application Programming Interface) é um conjunto de protocolos,
+rotinas e ferramentas para acesso a um aplicativo de software. Através
+de uma API, é possível estabelecer uma comunicação entre diferentes
+softwares, permitindo que os mesmos troquem informações e executem ações
+de forma programática.</p>
+<p>As APIs podem ser públicas ou privadas. As públicas são aquelas
+disponibilizadas para uso de terceiros, geralmente com o objetivo de
+permitir a integração entre diferentes sistemas e aplicações. Já as APIs
+privadas são aquelas usadas dentro de uma mesma empresa ou organização,
+permitindo que diferentes sistemas internos se comuniquem entre si.</p>
+<p>As APIs podem ser implementadas de diferentes maneiras, como por
+exemplo utilizando REST, SOAP, GraphQL, entre outros. Cada uma dessas
+abordagens tem suas próprias características e benefícios, sendo a
+escolha da melhor opção para cada caso dependente das necessidades
+específicas do projeto.</p>
 <h2 id="ssr-server-side-rendering">SSR (Server-Side Rendering)</h2>
+<p>SSR (Server-Side Rendering) é uma técnica utilizada no
+desenvolvimento de aplicações web para renderizar conteúdo no lado do
+servidor e enviá-lo ao navegador do usuário já completo, pronto para ser
+visualizado. Isso é feito em contraposição à técnica de renderização
+client-side, na qual o conteúdo é baixado e processado no navegador,
+utilizando JavaScript para preencher a página.</p>
+<p>O uso de SSR pode trazer algumas vantagens, como melhorias na
+performance e SEO (Search Engine Optimization). Com a renderização
+ocorrendo no servidor, o tempo de resposta para o usuário é reduzido,
+pois não é necessário aguardar a execução do JavaScript no navegador.
+Além disso, os mecanismos de busca conseguem indexar melhor o conteúdo,
+já que ele é entregue completo desde o servidor.</p>
+<p>Por outro lado, a utilização de SSR também pode trazer alguns
+desafios, como a necessidade de se ter um servidor capaz de lidar com o
+processamento de múltiplas requisições e a complexidade na implementação
+de algumas funcionalidades client-side, que precisam ser adaptadas para
+funcionarem no servidor.</p>
 <h2 id="csr-client-side-rendering">CSR (Client-Side Rendering)</h2>
+<p>CSR (Client-Side Rendering) é uma técnica de renderização de
+aplicativos em que o processamento da interface do usuário é feito pelo
+navegador do cliente. Em outras palavras, o cliente (navegador) é
+responsável por carregar o aplicativo e gerar a interface do usuário.
+Isso significa que, em vez de carregar uma página inteira do servidor, a
+página principal é carregada e os componentes adicionais são carregados
+dinamicamente em segundo plano, à medida que o usuário interage com a
+página.</p>
+<p>A principal vantagem do CSR é que ele permite que os aplicativos
+sejam muito mais responsivos e interativos, porque grande parte do
+processamento é feito pelo navegador do cliente. Além disso, o CSR
+permite que os aplicativos sejam desenvolvidos em diferentes tecnologias
+e plataformas, como Angular, React e Vue.js.</p>
+<p>No entanto, o CSR tem algumas desvantagens. Como o cliente é
+responsável por gerar a interface do usuário, os aplicativos podem
+demorar mais para carregar a primeira vez que são acessados,
+especialmente em conexões mais lentas. Além disso, o CSR pode ter
+problemas de SEO (Search Engine Optimization), uma vez que os motores de
+busca não conseguem rastrear facilmente o conteúdo que é gerado
+dinamicamente.</p>
+<p>Aplicações desenvolvidas com Laravel e Vue podem ser tanto SSR
+(Server-Side Rendering) quanto CSR (Client-Side Rendering), dependendo
+da abordagem utilizada.</p>
+<p>Por padrão, o Vue é uma biblioteca que permite a criação de
+aplicações de CSR, em que todo o processamento é feito no navegador do
+cliente. Nesse caso, a página é carregada em branco e o Vue é
+responsável por renderizar o conteúdo dinâmico no navegador do
+usuário.</p>
+<p>Já o Laravel, por padrão, é uma estrutura voltada para a construção
+de aplicativos web tradicionais, que usam SSR. O Laravel gera o HTML no
+servidor e envia o resultado final para o navegador do usuário.</p>
+<p>No entanto, é possível usar o Vue em conjunto com o Laravel para
+criar aplicações de SSR. Isso pode ser feito usando bibliotecas como o
+Nuxt.js ou o Inertia.js, que permitem que o Vue renderize o conteúdo no
+servidor, antes de ser enviado para o navegador do usuário. Dessa forma,
+é possível obter os benefícios do CSR, como interatividade, sem
+sacrificar a indexação por mecanismos de busca, por exemplo.</p>
 <h2 id="pwa-progressive-web-apps">PWA (Progressive Web Apps)</h2>
+<p>As Progressive Web Apps (PWA) são uma tecnologia de desenvolvimento
+de aplicativos web que permite que eles tenham características de
+aplicativos nativos, como notificações push, capacidade de funcionar
+offline e instalação no dispositivo do usuário. As PWA são construídas
+usando tecnologias da web, como HTML, CSS e JavaScript, e são acessíveis
+por meio de um navegador da web.</p>
+<p>Uma das principais vantagens das PWA é que elas oferecem uma
+experiência de usuário mais rápida e fluida do que os aplicativos web
+tradicionais. Isso ocorre porque as PWA usam o cache para armazenar
+recursos que não mudam com frequência, o que significa que os usuários
+podem acessar o conteúdo do aplicativo de forma mais rápida e
+confiável.</p>
+<p>Outra vantagem é que as PWA são muito mais leves do que os
+aplicativos nativos, o que significa que podem ser executadas em
+dispositivos com menor capacidade de processamento ou conexões de
+internet mais lentas.</p>
+<p>No entanto, as PWA ainda têm algumas limitações em comparação com os
+aplicativos nativos, como o acesso limitado a recursos do dispositivo e
+a capacidade de integrar-se completamente ao sistema operacional. Além
+disso, nem todos os navegadores são compatíveis com as PWA, o que
+significa que alguns usuários podem não ser capazes de acessá-las.</p>
+<h2 id="i18n-internationalization">I18N (Internationalization)</h2>
+<p><em>TODO</em></p>
 <h1 id="conclusão">Conclusão</h1>
 <h2 id="recapitulação-dos-principais-tópicos">Recapitulação dos
 principais tópicos</h2>
+<p>Ao longo deste e-book, discutimos uma variedade de tópicos
+relacionados ao desenvolvimento web, incluindo:</p>
+<ul>
+<li>A importância da escolha de uma boa arquitetura de aplicação web,
+incluindo o padrão MVC e o padrão MVVM.</li>
+<li>O funcionamento e a implementação do padrão MVC, incluindo exemplos
+usando o framework Laravel.</li>
+<li>O padrão MVVM e como ele se compara ao padrão MVC.</li>
+<li>O conceito de fluxo de dados unidirecional e frameworks como Redux e
+Vuex que implementam esse conceito.</li>
+<li>O padrão Clean e sua ênfase na separação de responsabilidades e na
+testabilidade do código.</li>
+<li>A importância das rotas na organização de uma aplicação web, bem
+como o uso de middlewares em rotas.</li>
+<li>O conceito de migrações e seu uso para gerenciamento de esquemas de
+banco de dados.</li>
+<li>O uso de ORM, suas vantagens e desvantagens, bem como exemplos de
+implementação usando o Eloquent ORM no Laravel.</li>
+<li>Os principais recursos e benefícios do framework VueJS, incluindo
+sua integração com o Laravel usando o InertiaJS.</li>
+<li>O conceito de SSR e CSR, bem como a discussão sobre se as aplicações
+desenvolvidas com Laravel e Vue são consideradas SSR ou CSR.</li>
+<li>A importância das PWAs na criação de experiências de usuário ricas e
+imersivas.</li>
+</ul>
+<p>Esperamos que este e-book tenha fornecido uma visão abrangente de
+tópicos importantes no desenvolvimento web e ajudado a estabelecer uma
+base sólida para o aprendizado futuro.</p>
 <h2
 id="pontos-fortes-e-fracos-de-cada-arquitetura-framework-e-conceito-discutido">Pontos
 fortes e fracos de cada arquitetura, framework e conceito discutido</h2>
